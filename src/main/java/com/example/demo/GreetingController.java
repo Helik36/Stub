@@ -1,19 +1,44 @@
 package com.example.demo;
 
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.ExecutorService;
+
 
 @RestController
+@RequestMapping
 public class GreetingController {
+    private String template;
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    public String getTemplate() {
+        return template;
+    }
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+    public GreetingController() {
+    }
+
+    @GetMapping(value = "/greeting", produces = MediaType.APPLICATION_JSON_VALUE)
+    public GreetingController get() {
+        GreetingController gC = new GreetingController();
+        gC.setTemplate("Hello world");
+        return gC;
+    }
+    @ExceptionHandler(ExceptionService.class)
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> post(@RequestBody Login login) {
+
+        if (login.getLogin() == null | login.getPassword() == null) {
+            throw new ExceptionService(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.ok(login.toString());
+
     }
 }
