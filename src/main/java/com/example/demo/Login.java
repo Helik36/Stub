@@ -9,15 +9,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Login {
     private String login;
-
     private String password;
     private LocalDate currentDate = LocalDate.now();
 
     @Override
     public String toString() {
-        return "Login{" +
-                "login='" + login + '\'' +
-                ", currentDate=" + currentDate +
+        return "{" +
+                "\"login\": " + "\"" + login + "\"" +
+                ", \"currentDate\": " + currentDate +
                 '}';
     }
 

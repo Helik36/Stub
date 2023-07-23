@@ -39,6 +39,5 @@ public class GreetingController {
             throw new ExceptionService(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok(login.toString());
-
     }
 }
