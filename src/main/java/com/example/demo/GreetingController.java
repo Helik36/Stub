@@ -33,9 +33,9 @@ public class GreetingController {
     }
     @ExceptionHandler(ExceptionService.class)
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> post(@RequestBody Login login) {
+    public ResponseEntity<?> post(@RequestBody Login login) throws ExceptionService {
 
-        if (login.getLogin() == null | login.getPassword() == null) {
+        if (login.getLogin().isEmpty() | login.getPassword().isEmpty()) {
             throw new ExceptionService(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok(login.toString());
